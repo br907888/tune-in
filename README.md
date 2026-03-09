@@ -1,6 +1,6 @@
 # Tune-In
 
-An online web platform that allows users to create personalized accounts to review and rate music they have listened to. The platform functions similarly to a social media experience — think Letterboxd, but for music.
+An online web platform that allows users to create personalized accounts to review and rate music they have listened to. The platform functions similarly to a social media experience — think Letterboxd, but for music. Users will be able to connect with each other, share music and reviews, and build community.
 
 ## Key Features
 
