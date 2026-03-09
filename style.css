@@ -1,0 +1,43 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0d1b2a 0%, #0a3d4a 60%, #0d5c5c 100%);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #e0f7f7;
+}
+
+.hero {
+  text-align: center;
+  max-width: 640px;
+  padding: 2rem;
+}
+
+.logo {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #3dd6c8;
+  text-shadow: 0 0 30px rgba(61, 214, 200, 0.35);
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #5eead4;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #a7d8d4;
+}
