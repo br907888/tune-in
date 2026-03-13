@@ -281,6 +281,43 @@ input:focus, textarea:focus {
   cursor: not-allowed;
 }
 
+@media (max-width: 480px) {
+  body {
+    padding: 1.5rem 1rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .card h1 {
+    font-size: 1.4rem;
+  }
+
+  .top-nav {
+    margin-bottom: 1.25rem;
+  }
+
+  .review-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .review-meta {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .stars {
+    gap: 0.25rem;
+  }
+
+  .star {
+    font-size: 1.75rem;
+  }
+}
+
 .empty-state {
   text-align: center;
   color: #5eead4;

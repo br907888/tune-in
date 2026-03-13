@@ -41,3 +41,17 @@ body {
   line-height: 1.7;
   color: #a7d8d4;
 }
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 2.75rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .hero {
+    padding: 1.5rem 1.25rem;
+  }
+}

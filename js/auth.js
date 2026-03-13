@@ -5,7 +5,8 @@ import {
   onAuthStateChanged,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { auth } from "./firebase-config.js";
+import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { auth, db } from "./firebase-config.js";
 
 // --- Tab switching ---
 const loginTab = document.getElementById("login-tab");
@@ -48,6 +49,12 @@ signupForm.addEventListener("submit", async (e) => {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(user, { displayName });
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      displayName,
+      email,
+      createdAt: serverTimestamp()
+    });
     window.location.href = "profile.html";
   } catch (err) {
     isSubmitting = false;

@@ -117,3 +117,18 @@ input:focus {
 .error-msg.hidden {
   display: none;
 }
+
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    padding: 2rem 1rem;
+  }
+
+  .auth-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .auth-card h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -134,3 +134,27 @@ input:focus {
   background: rgba(248, 113, 113, 0.1);
   border-color: #f87171;
 }
+
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    padding: 2rem 1rem;
+  }
+
+  .profile-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .profile-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .edit-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .save-btn {
+    width: 100%;
+  }
+}

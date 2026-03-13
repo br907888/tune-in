@@ -3,7 +3,8 @@ import {
   signOut,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { auth } from "./firebase-config.js";
+import { updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { auth, db } from "./firebase-config.js";
 
 const displayNameEl = document.getElementById("display-name");
 const emailEl = document.getElementById("user-email");
@@ -37,6 +38,7 @@ editForm.addEventListener("submit", async (e) => {
 
   try {
     await updateProfile(auth.currentUser, { displayName: newName });
+    await updateDoc(doc(db, "users", auth.currentUser.uid), { displayName: newName });
     displayNameEl.textContent = newName;
     showStatus("Name updated successfully.");
   } catch (err) {
