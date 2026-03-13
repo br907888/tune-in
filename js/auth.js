@@ -18,6 +18,9 @@ loginTab.addEventListener("click", () => {
   signupTab.classList.remove("active");
   loginForm.classList.remove("hidden");
   signupForm.classList.add("hidden");
+  // Disable hidden form inputs so browser validation ignores them
+  signupForm.querySelectorAll("input").forEach(i => i.disabled = true);
+  loginForm.querySelectorAll("input").forEach(i => i.disabled = false);
   clearError();
 });
 
@@ -26,12 +29,18 @@ signupTab.addEventListener("click", () => {
   loginTab.classList.remove("active");
   signupForm.classList.remove("hidden");
   loginForm.classList.add("hidden");
+  loginForm.querySelectorAll("input").forEach(i => i.disabled = true);
+  signupForm.querySelectorAll("input").forEach(i => i.disabled = false);
   clearError();
 });
+
+// Flag to prevent onAuthStateChanged from racing with form submission redirects
+let isSubmitting = false;
 
 // --- Sign Up ---
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  isSubmitting = true;
   const displayName = document.getElementById("signup-name").value.trim();
   const email = document.getElementById("signup-email").value.trim();
   const password = document.getElementById("signup-password").value;
@@ -41,6 +50,7 @@ signupForm.addEventListener("submit", async (e) => {
     await updateProfile(user, { displayName });
     window.location.href = "profile.html";
   } catch (err) {
+    isSubmitting = false;
     showError(friendlyError(err.code));
   }
 });
@@ -48,6 +58,7 @@ signupForm.addEventListener("submit", async (e) => {
 // --- Log In ---
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  isSubmitting = true;
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value;
 
@@ -55,13 +66,15 @@ loginForm.addEventListener("submit", async (e) => {
     await signInWithEmailAndPassword(auth, email, password);
     window.location.href = "profile.html";
   } catch (err) {
+    isSubmitting = false;
     showError(friendlyError(err.code));
   }
 });
 
 // --- Redirect if already logged in ---
+// Only fires when the page loads with an existing session, not during form submissions
 onAuthStateChanged(auth, (user) => {
-  if (user) window.location.href = "profile.html";
+  if (user && !isSubmitting) window.location.href = "profile.html";
 });
 
 // --- Helpers ---

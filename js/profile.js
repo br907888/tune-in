@@ -9,7 +9,6 @@ const displayNameEl = document.getElementById("display-name");
 const emailEl = document.getElementById("user-email");
 const editForm = document.getElementById("edit-form");
 const editNameInput = document.getElementById("edit-name");
-const saveBtn = document.getElementById("save-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const statusMsg = document.getElementById("status-msg");
 
@@ -30,11 +29,17 @@ editForm.addEventListener("submit", async (e) => {
   const newName = editNameInput.value.trim();
   if (!newName) return;
 
+  // Guard: auth.currentUser can be null if Firebase hasn't resolved the session yet
+  if (!auth.currentUser) {
+    showStatus("Session not ready. Please try again.", true);
+    return;
+  }
+
   try {
     await updateProfile(auth.currentUser, { displayName: newName });
     displayNameEl.textContent = newName;
     showStatus("Name updated successfully.");
-  } catch {
+  } catch (err) {
     showStatus("Failed to update name. Please try again.", true);
   }
 });
