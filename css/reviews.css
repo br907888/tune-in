@@ -193,6 +193,11 @@ input:focus, textarea:focus {
   margin-bottom: 1.5rem;
 }
 
+.search-row input {
+  flex: 1;
+  min-width: 0;
+}
+
 .search-btn {
   width: auto;
   white-space: nowrap;
@@ -324,6 +329,13 @@ input:focus, textarea:focus {
   cursor: not-allowed;
 }
 
+.empty-state {
+  text-align: center;
+  color: #5eead4;
+  padding: 2rem 0;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 480px) {
   body {
     padding: 1.5rem 1rem;
@@ -359,12 +371,5 @@ input:focus, textarea:focus {
   .star {
     font-size: 1.75rem;
   }
-}
-
-.empty-state {
-  text-align: center;
-  color: #5eead4;
-  padding: 2rem 0;
-  font-size: 0.95rem;
 }
 

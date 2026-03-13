@@ -7,14 +7,18 @@ const searchInput = document.getElementById("search-input");
 const resultsContainer = document.getElementById("search-results");
 
 let currentUserId = null;
+let requestCount = 0;
 
-// --- Auth guard ---
+// --- Auth guard: disable input until session is confirmed ---
+searchInput.disabled = true;
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
     return;
   }
   currentUserId = user.uid;
+  searchInput.disabled = false;
+  searchInput.focus();
 });
 
 // --- Debounced search as user types ---
@@ -39,10 +43,11 @@ async function runSearch() {
     return;
   }
 
+  // Track this request — discard results if a newer one has started
+  const thisRequest = ++requestCount;
   resultsContainer.innerHTML = `<p class="empty-state">Searching...</p>`;
 
   try {
-    // Prefix range query on displayNameLower for case-insensitive matching
     const q = query(
       collection(db, "users"),
       where("displayNameLower", ">=", term),
@@ -50,6 +55,9 @@ async function runSearch() {
     );
 
     const snapshot = await getDocs(q);
+
+    // Discard stale responses
+    if (thisRequest !== requestCount) return;
 
     const users = [];
     snapshot.forEach(docSnap => {
@@ -69,6 +77,7 @@ async function runSearch() {
     `).join("");
 
   } catch (err) {
+    if (thisRequest !== requestCount) return;
     resultsContainer.innerHTML = `<p class="empty-state" style="color:#f87171;">Search failed. Please try again.</p>`;
   }
 }
