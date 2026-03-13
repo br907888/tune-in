@@ -27,7 +27,7 @@ async function loadReviews(userId) {
 
     // Sort client-side by createdAt descending
     const reviews = [];
-    snapshot.forEach(doc => reviews.push({ id: doc.id, ...doc.data() }));
+    snapshot.forEach(docSnap => reviews.push({ id: docSnap.id, ...docSnap.data() }));
     reviews.sort((a, b) => {
       const aTime = a.createdAt?.seconds ?? 0;
       const bTime = b.createdAt?.seconds ?? 0;
