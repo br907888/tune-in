@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tune-In — My Profile</title>
+  <link rel="stylesheet" href="css/profile.css" />
+</head>
+<body>
+  <div class="profile-card">
+    <h1>My Profile</h1>
+
+    <div class="user-info">
+      <div class="info-row">
+        <span class="info-label">Display Name</span>
+        <span class="info-value" id="display-name">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email</span>
+        <span class="info-value" id="user-email">—</span>
+      </div>
+    </div>
+
+    <div class="edit-section">
+      <h2>Edit Display Name</h2>
+      <form id="edit-form">
+        <div class="edit-row">
+          <input type="text" id="edit-name" placeholder="New display name" required />
+          <button type="submit" class="save-btn" id="save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+
+    <p class="status" id="status-msg"></p>
+
+    <button class="logout-btn" id="logout-btn">Log Out</button>
+  </div>
+
+  <script type="module" src="js/profile.js"></script>
+</body>
+</html>

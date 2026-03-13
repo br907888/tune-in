@@ -1,0 +1,52 @@
+import {
+  onAuthStateChanged,
+  signOut,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { auth } from "./firebase-config.js";
+
+const displayNameEl = document.getElementById("display-name");
+const emailEl = document.getElementById("user-email");
+const editForm = document.getElementById("edit-form");
+const editNameInput = document.getElementById("edit-name");
+const saveBtn = document.getElementById("save-btn");
+const logoutBtn = document.getElementById("logout-btn");
+const statusMsg = document.getElementById("status-msg");
+
+// --- Guard: redirect to login if not authenticated ---
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+  displayNameEl.textContent = user.displayName || "No name set";
+  emailEl.textContent = user.email;
+  editNameInput.value = user.displayName || "";
+});
+
+// --- Update display name ---
+editForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const newName = editNameInput.value.trim();
+  if (!newName) return;
+
+  try {
+    await updateProfile(auth.currentUser, { displayName: newName });
+    displayNameEl.textContent = newName;
+    showStatus("Name updated successfully.");
+  } catch {
+    showStatus("Failed to update name. Please try again.", true);
+  }
+});
+
+// --- Log out ---
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "index.html";
+});
+
+function showStatus(message, isError = false) {
+  statusMsg.textContent = message;
+  statusMsg.className = isError ? "status error" : "status success";
+  setTimeout(() => { statusMsg.textContent = ""; statusMsg.className = "status"; }, 3000);
+}

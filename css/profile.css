@@ -1,0 +1,136 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0d1b2a 0%, #0a3d4a 60%, #0d5c5c 100%);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #e0f7f7;
+}
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(61, 214, 200, 0.2);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 440px;
+}
+
+.profile-card h1 {
+  font-size: 1.8rem;
+  color: #3dd6c8;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+/* User info */
+.user-info {
+  margin-bottom: 2rem;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.85rem;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: #5eead4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  font-size: 1.05rem;
+  color: #e0f7f7;
+}
+
+/* Edit form */
+.edit-section h2 {
+  font-size: 1rem;
+  color: #5eead4;
+  margin-bottom: 1rem;
+}
+
+.edit-section {
+  border-top: 1px solid rgba(61, 214, 200, 0.15);
+  padding-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.edit-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+input {
+  flex: 1;
+  padding: 0.65rem 0.85rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(61, 214, 200, 0.25);
+  border-radius: 6px;
+  color: #e0f7f7;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #3dd6c8;
+}
+
+.save-btn {
+  padding: 0.65rem 1.1rem;
+  background: #3dd6c8;
+  color: #0d1b2a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.save-btn:hover {
+  background: #5eead4;
+}
+
+/* Status message */
+.status {
+  font-size: 0.875rem;
+  min-height: 1.2rem;
+  margin-bottom: 1.25rem;
+}
+
+.status.success { color: #4ade80; }
+.status.error   { color: #f87171; }
+
+/* Logout */
+.logout-btn {
+  width: 100%;
+  padding: 0.7rem;
+  background: transparent;
+  color: #f87171;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: #f87171;
+}
