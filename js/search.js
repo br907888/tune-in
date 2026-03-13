@@ -61,7 +61,10 @@ async function runSearch() {
 
     const users = [];
     snapshot.forEach(docSnap => {
-      if (docSnap.id !== currentUserId) users.push(docSnap.data());
+      if (docSnap.id !== currentUserId) {
+        // Use docSnap.id as the uid — it's always the user's UID regardless of document fields
+        users.push({ uid: docSnap.id, ...docSnap.data() });
+      }
     });
 
     if (users.length === 0) {
