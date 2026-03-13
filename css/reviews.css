@@ -234,6 +234,63 @@ input:focus, textarea:focus {
   font-size: 1.1rem;
 }
 
+/* ── Public profile ── */
+.public-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.public-profile-header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.profile-subtext {
+  font-size: 0.875rem;
+  color: #5eead4;
+}
+
+.follow-btn {
+  padding: 0.55rem 1.25rem;
+  background: transparent;
+  border: 1px solid rgba(61, 214, 200, 0.4);
+  border-radius: 6px;
+  color: #3dd6c8;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.follow-btn:hover:not(:disabled) {
+  background: rgba(61, 214, 200, 0.1);
+  border-color: #3dd6c8;
+}
+
+.follow-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.follow-btn.following {
+  background: rgba(61, 214, 200, 0.15);
+  border-color: #3dd6c8;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(61, 214, 200, 0.15);
+  margin-bottom: 1.25rem;
+}
+
+.section-heading {
+  font-size: 1rem;
+  color: #5eead4;
+  margin-bottom: 1rem;
+}
+
 /* ── Review list ── */
 .reviews-list {
   display: flex;

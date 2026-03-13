@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tune-In — User Profile</title>
+  <link rel="stylesheet" href="css/reviews.css" />
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="index.html" class="nav-logo">Tune-In</a>
+    <div class="nav-links">
+      <a href="search.html">Search</a>
+      <a href="reviews.html">My Reviews</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </nav>
+
+  <div class="card">
+    <div class="public-profile-header">
+      <div>
+        <h1 id="profile-name">—</h1>
+        <p class="profile-subtext" id="profile-subtext"></p>
+      </div>
+      <button class="follow-btn" id="follow-btn" disabled>Follow</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2 class="section-heading">Reviews</h2>
+    <div id="reviews-list" class="reviews-list">
+      <p class="empty-state">Loading reviews...</p>
+    </div>
+  </div>
+
+  <script type="module" src="js/public-profile.js"></script>
+</body>
+</html>
