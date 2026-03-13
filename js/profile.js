@@ -43,7 +43,7 @@ editForm.addEventListener("submit", async (e) => {
   try {
     await updateProfile(auth.currentUser, { displayName: newName });
     // setDoc with merge:true acts as upsert — safe for accounts created before Firestore docs were added
-    await setDoc(doc(db, "users", auth.currentUser.uid), { displayName: newName }, { merge: true });
+    await setDoc(doc(db, "users", auth.currentUser.uid), { displayName: newName, displayNameLower: newName.toLowerCase() }, { merge: true });
     displayNameEl.textContent = newName;
     showStatus("Name updated successfully.");
   } catch (err) {

@@ -58,6 +58,7 @@ signupForm.addEventListener("submit", async (e) => {
     await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       displayName,
+      displayNameLower: displayName.toLowerCase(),
       email,
       createdAt: serverTimestamp()
     });

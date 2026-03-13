@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tune-In — Search Users</title>
+  <link rel="stylesheet" href="css/reviews.css" />
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="index.html" class="nav-logo">Tune-In</a>
+    <div class="nav-links">
+      <a href="reviews.html">My Reviews</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </nav>
+
+  <div class="card">
+    <h1>Search Users</h1>
+
+    <form id="search-form" class="search-row">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search by display name..."
+        autocomplete="off"
+      />
+      <button type="submit" class="submit-btn search-btn">Search</button>
+    </form>
+
+    <div id="search-results"></div>
+  </div>
+
+  <script type="module" src="js/search.js"></script>
+</body>
+</html>
