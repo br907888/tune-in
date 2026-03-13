@@ -5,10 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tune-In — My Profile</title>
   <link rel="stylesheet" href="css/profile.css" />
+  <style>
+    .profile-nav {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .profile-nav a {
+      flex: 1;
+      text-align: center;
+      padding: 0.6rem;
+      border: 1px solid rgba(61, 214, 200, 0.3);
+      border-radius: 6px;
+      color: #3dd6c8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .profile-nav a:hover { background: rgba(61, 214, 200, 0.1); }
+  </style>
 </head>
 <body>
   <div class="profile-card">
     <h1>My Profile</h1>
+
+    <nav class="profile-nav">
+      <a href="reviews.html">My Reviews</a>
+      <a href="review-new.html">Write a Review</a>
+    </nav>
 
     <div class="user-info">
       <div class="info-row">

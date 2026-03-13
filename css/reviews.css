@@ -1,0 +1,281 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, #0d1b2a 0%, #0a3d4a 60%, #0d5c5c 100%);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #e0f7f7;
+  padding: 2.5rem 1rem;
+}
+
+/* ── Nav ── */
+.top-nav {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.nav-logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #3dd6c8;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  font-size: 0.875rem;
+  color: #a7d8d4;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #3dd6c8;
+}
+
+/* ── Card ── */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(61, 214, 200, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 560px;
+}
+
+.card h1 {
+  font-size: 1.6rem;
+  color: #3dd6c8;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+/* ── Type toggle ── */
+.type-toggle {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.type-btn {
+  flex: 1;
+  padding: 0.55rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(61, 214, 200, 0.25);
+  border-radius: 6px;
+  color: #a7d8d4;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.type-btn.active {
+  background: rgba(61, 214, 200, 0.15);
+  border-color: #3dd6c8;
+  color: #3dd6c8;
+  font-weight: 600;
+}
+
+/* ── Form fields ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1.1rem;
+}
+
+label {
+  font-size: 0.82rem;
+  color: #5eead4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(61, 214, 200, 0.25);
+  border-radius: 6px;
+  color: #e0f7f7;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
+  border-color: #3dd6c8;
+}
+
+/* ── Star rating ── */
+.star-group {
+  margin-bottom: 1.25rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: rgba(61, 214, 200, 0.25);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.1s;
+  padding: 0;
+  line-height: 1;
+}
+
+.star.selected,
+.star.hovered {
+  color: #3dd6c8;
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+/* ── Submit ── */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #3dd6c8;
+  color: #0d1b2a;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.submit-btn:hover {
+  background: #5eead4;
+}
+
+/* ── Status / error ── */
+.status-msg {
+  font-size: 0.875rem;
+  min-height: 1.2rem;
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+.status-msg.success { color: #4ade80; }
+.status-msg.error   { color: #f87171; }
+
+/* ── Review list ── */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(61, 214, 200, 0.15);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.review-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e0f7f7;
+}
+
+.review-artist {
+  font-size: 0.875rem;
+  color: #5eead4;
+  margin-top: 0.1rem;
+}
+
+.review-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.review-stars {
+  color: #3dd6c8;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.type-badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0d1b2a;
+  background: #3dd6c8;
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  font-weight: 700;
+}
+
+.review-text {
+  font-size: 0.9rem;
+  color: #a7d8d4;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+}
+
+.review-date {
+  font-size: 0.75rem;
+  color: #5eead4;
+  margin-top: 0.6rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: #5eead4;
+  padding: 2rem 0;
+  font-size: 0.95rem;
+}
+
+.new-review-btn {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.6rem 1.25rem;
+  background: #3dd6c8;
+  color: #0d1b2a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.new-review-btn:hover {
+  background: #5eead4;
+}
