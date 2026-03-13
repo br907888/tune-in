@@ -250,10 +250,35 @@ input:focus, textarea:focus {
   margin-top: 0.75rem;
 }
 
+.review-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6rem;
+}
+
 .review-date {
   font-size: 0.75rem;
   color: #5eead4;
-  margin-top: 0.6rem;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #f87171;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.delete-btn:hover {
+  opacity: 0.75;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .empty-state {
