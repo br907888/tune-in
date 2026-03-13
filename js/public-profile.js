@@ -1,9 +1,14 @@
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { collection, query, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { auth, db } from "./firebase-config.js";
 
 const profileNameEl = document.getElementById("profile-name");
+const profileSubtext = document.getElementById("profile-subtext");
+const followBtn = document.getElementById("follow-btn");
 const reviewsList = document.getElementById("reviews-list");
+
+let currentUser = null;
+let isFollowing = false;
 
 // Read uid from URL query string, fall back to sessionStorage for servers that strip query strings
 const params = new URLSearchParams(window.location.search);
@@ -28,6 +33,7 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
+  currentUser = user;
   await loadProfile(profileUid);
 });
 
@@ -46,12 +52,68 @@ async function loadProfile(uid) {
     profileNameEl.textContent = displayName;
     document.title = `Tune-In — ${displayName}`;
 
-    // Fetch their reviews
-    await loadReviews(uid, displayName);
+    // Load follow state and follower count in parallel with reviews
+    await Promise.all([
+      loadFollowState(currentUser.uid, uid),
+      loadReviews(uid, displayName)
+    ]);
 
   } catch (err) {
     showError("Failed to load profile. Please try again.");
   }
+}
+
+async function loadFollowState(currentUid, targetUid) {
+  const followDocRef = doc(db, "follows", `${currentUid}_${targetUid}`);
+  const [followSnap, followerSnap] = await Promise.all([
+    getDoc(followDocRef),
+    getDocs(query(collection(db, "follows"), where("followingId", "==", targetUid)))
+  ]);
+
+  isFollowing = followSnap.exists();
+  updateFollowButton();
+  profileSubtext.textContent = formatFollowerCount(followerSnap.size);
+  followBtn.disabled = false;
+}
+
+followBtn.addEventListener("click", async () => {
+  if (!currentUser || !profileUid) return;
+
+  followBtn.disabled = true;
+  const followDocRef = doc(db, "follows", `${currentUser.uid}_${profileUid}`);
+
+  try {
+    if (isFollowing) {
+      await deleteDoc(followDocRef);
+      isFollowing = false;
+    } else {
+      await setDoc(followDocRef, {
+        followerId: currentUser.uid,
+        followingId: profileUid,
+        createdAt: serverTimestamp()
+      });
+      isFollowing = true;
+    }
+
+    updateFollowButton();
+
+    // Refresh follower count
+    const followerSnap = await getDocs(query(collection(db, "follows"), where("followingId", "==", profileUid)));
+    profileSubtext.textContent = formatFollowerCount(followerSnap.size);
+  } catch (err) {
+    // No-op — button re-enabled in finally
+  } finally {
+    followBtn.disabled = false;
+  }
+});
+
+function updateFollowButton() {
+  followBtn.textContent = isFollowing ? "Unfollow" : "Follow";
+  followBtn.classList.toggle("following", isFollowing);
+}
+
+function formatFollowerCount(count) {
+  return `${count} ${count === 1 ? "follower" : "followers"}`;
 }
 
 async function loadReviews(uid, displayName) {

@@ -3,7 +3,7 @@ import {
   signOut,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { setDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { setDoc, doc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { auth, db } from "./firebase-config.js";
 
 const displayNameEl = document.getElementById("display-name");
@@ -22,7 +22,18 @@ onAuthStateChanged(auth, (user) => {
   displayNameEl.textContent = user.displayName || "No name set";
   emailEl.textContent = user.email;
   editNameInput.value = user.displayName || "";
+  loadFollowStats(user.uid);
 });
+
+// --- Follower / following counts ---
+async function loadFollowStats(uid) {
+  const [followersSnap, followingSnap] = await Promise.all([
+    getDocs(query(collection(db, "follows"), where("followingId", "==", uid))),
+    getDocs(query(collection(db, "follows"), where("followerId", "==", uid)))
+  ]);
+  document.getElementById("followers-count").textContent = followersSnap.size;
+  document.getElementById("following-count").textContent = followingSnap.size;
+}
 
 // --- Update display name ---
 editForm.addEventListener("submit", async (e) => {

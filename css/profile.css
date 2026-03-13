@@ -30,6 +30,32 @@ body {
   letter-spacing: -0.5px;
 }
 
+/* Stats */
+.stats-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #3dd6c8;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #5eead4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* User info */
 .user-info {
   margin-bottom: 2rem;
