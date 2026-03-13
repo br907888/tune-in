@@ -30,6 +30,7 @@ typeButtons.forEach((btn) => {
 });
 
 // --- Star rating ---
+const starContainer = document.getElementById("star-container");
 const stars = document.querySelectorAll(".star");
 const ratingInput = document.getElementById("review-rating");
 let selectedRating = 0;
@@ -42,10 +43,6 @@ stars.forEach((star) => {
     });
   });
 
-  star.addEventListener("mouseleave", () => {
-    stars.forEach(s => s.classList.remove("hovered"));
-  });
-
   star.addEventListener("click", () => {
     selectedRating = parseInt(star.dataset.value);
     ratingInput.value = selectedRating;
@@ -53,6 +50,11 @@ stars.forEach((star) => {
       s.classList.toggle("selected", parseInt(s.dataset.value) <= selectedRating);
     });
   });
+});
+
+// mouseleave on the container prevents flickering between individual stars
+starContainer.addEventListener("mouseleave", () => {
+  stars.forEach(s => s.classList.remove("hovered"));
 });
 
 // --- Form submission ---
@@ -82,11 +84,17 @@ form.addEventListener("submit", async (e) => {
     createdAt: serverTimestamp()
   };
 
+  const submitBtn = form.querySelector(".submit-btn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+
   try {
     await addDoc(collection(db, "reviews"), review);
     window.location.href = "reviews.html";
   } catch (err) {
     showStatus("Failed to submit review. Please try again.", true);
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Review";
   }
 });
 

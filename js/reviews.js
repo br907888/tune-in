@@ -34,22 +34,25 @@ async function loadReviews(userId) {
       return bTime - aTime;
     });
 
-    reviewsList.innerHTML = reviews.map(review => `
-      <div class="review-card">
-        <div class="review-header">
-          <div>
-            <div class="review-title">${escapeHtml(review.title)}</div>
-            <div class="review-artist">${escapeHtml(review.artist)}</div>
+    reviewsList.innerHTML = reviews.map(review => {
+      const rating = Math.min(5, Math.max(0, parseInt(review.rating) || 0));
+      return `
+        <div class="review-card">
+          <div class="review-header">
+            <div>
+              <div class="review-title">${escapeHtml(review.title)}</div>
+              <div class="review-artist">${escapeHtml(review.artist)}</div>
+            </div>
+            <div class="review-meta">
+              <span class="type-badge">${escapeHtml(review.type)}</span>
+              <span class="review-stars">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</span>
+            </div>
           </div>
-          <div class="review-meta">
-            <span class="type-badge">${review.type}</span>
-            <span class="review-stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</span>
-          </div>
+          ${review.reviewText ? `<p class="review-text">${escapeHtml(review.reviewText)}</p>` : ""}
+          <p class="review-date">${formatDate(review.createdAt)}</p>
         </div>
-        ${review.reviewText ? `<p class="review-text">${escapeHtml(review.reviewText)}</p>` : ""}
-        <p class="review-date">${formatDate(review.createdAt)}</p>
-      </div>
-    `).join("");
+      `;
+    }).join("");
 
   } catch (err) {
     reviewsList.innerHTML = `<p class="empty-state" style="color:#f87171;">Failed to load reviews. Please try again.</p>`;
