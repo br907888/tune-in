@@ -3,7 +3,6 @@ import { collection, query, where, getDocs, doc, getDoc } from "https://www.gsta
 import { auth, db } from "./firebase-config.js";
 
 const profileNameEl = document.getElementById("profile-name");
-const profileSubtext = document.getElementById("profile-subtext");
 const reviewsList = document.getElementById("reviews-list");
 
 // Read uid from URL query string
@@ -42,11 +41,12 @@ async function loadProfile(uid) {
     }
 
     const userData = userSnap.data();
-    profileNameEl.textContent = userData.displayName || "Unknown User";
-    document.title = `Tune-In — ${userData.displayName || "User"}`;
+    const displayName = userData.displayName || "Unknown User";
+    profileNameEl.textContent = displayName;
+    document.title = `Tune-In — ${displayName}`;
 
     // Fetch their reviews
-    await loadReviews(uid, userData.displayName);
+    await loadReviews(uid, displayName);
 
   } catch (err) {
     showError("Failed to load profile. Please try again.");
