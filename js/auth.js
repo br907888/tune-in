@@ -42,12 +42,18 @@ let isSubmitting = false;
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   isSubmitting = true;
+
+  const submitBtn = signupForm.querySelector(".submit-btn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Creating account...";
+
   const displayName = document.getElementById("signup-name").value.trim();
   const email = document.getElementById("signup-email").value.trim();
   const password = document.getElementById("signup-password").value;
 
+  let user = null;
   try {
-    const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    ({ user } = await createUserWithEmailAndPassword(auth, email, password));
     await updateProfile(user, { displayName });
     await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
@@ -57,7 +63,11 @@ signupForm.addEventListener("submit", async (e) => {
     });
     window.location.href = "profile.html";
   } catch (err) {
+    // If Auth user was created but a later step failed, delete the partial account
+    if (user) await user.delete().catch(() => {});
     isSubmitting = false;
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Create Account";
     showError(friendlyError(err.code));
   }
 });

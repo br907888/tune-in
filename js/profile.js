@@ -3,7 +3,7 @@ import {
   signOut,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { setDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { auth, db } from "./firebase-config.js";
 
 const displayNameEl = document.getElementById("display-name");
@@ -36,13 +36,21 @@ editForm.addEventListener("submit", async (e) => {
     return;
   }
 
+  const saveBtn = editForm.querySelector(".save-btn");
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+
   try {
     await updateProfile(auth.currentUser, { displayName: newName });
-    await updateDoc(doc(db, "users", auth.currentUser.uid), { displayName: newName });
+    // setDoc with merge:true acts as upsert — safe for accounts created before Firestore docs were added
+    await setDoc(doc(db, "users", auth.currentUser.uid), { displayName: newName }, { merge: true });
     displayNameEl.textContent = newName;
     showStatus("Name updated successfully.");
   } catch (err) {
     showStatus("Failed to update name. Please try again.", true);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = "Save";
   }
 });
 
