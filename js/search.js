@@ -73,11 +73,18 @@ async function runSearch() {
     }
 
     resultsContainer.innerHTML = users.map(user => `
-      <a href="public-profile.html?uid=${encodeURIComponent(user.uid)}" class="user-card">
+      <a href="public-profile.html" data-uid="${escapeHtml(user.uid)}" class="user-card">
         <span class="user-name">${escapeHtml(user.displayName)}</span>
         <span class="user-arrow">→</span>
       </a>
     `).join("");
+
+    // Store uid in sessionStorage on click so it survives navigation
+    resultsContainer.querySelectorAll(".user-card").forEach(card => {
+      card.addEventListener("click", () => {
+        sessionStorage.setItem("viewProfileUid", card.dataset.uid);
+      });
+    });
 
   } catch (err) {
     if (thisRequest !== requestCount) return;

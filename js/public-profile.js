@@ -5,9 +5,10 @@ import { auth, db } from "./firebase-config.js";
 const profileNameEl = document.getElementById("profile-name");
 const reviewsList = document.getElementById("reviews-list");
 
-// Read uid from URL query string
+// Read uid from URL query string, fall back to sessionStorage for servers that strip query strings
 const params = new URLSearchParams(window.location.search);
-const profileUid = params.get("uid");
+const profileUid = params.get("uid") || sessionStorage.getItem("viewProfileUid");
+sessionStorage.removeItem("viewProfileUid");
 
 // --- Auth guard ---
 onAuthStateChanged(auth, async (user) => {
