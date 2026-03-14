@@ -62,7 +62,7 @@ signupForm.addEventListener("submit", async (e) => {
       email,
       createdAt: serverTimestamp()
     });
-    window.location.href = "profile.html";
+    window.location.href = "home.html";
   } catch (err) {
     // If Auth user was created but a later step failed, delete the partial account
     if (user) await user.delete().catch(() => {});
@@ -82,7 +82,7 @@ loginForm.addEventListener("submit", async (e) => {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    window.location.href = "profile.html";
+    window.location.href = "home.html";
   } catch (err) {
     isSubmitting = false;
     showError(friendlyError(err.code));
@@ -92,7 +92,7 @@ loginForm.addEventListener("submit", async (e) => {
 // --- Redirect if already logged in ---
 // Only fires when the page loads with an existing session, not during form submissions
 onAuthStateChanged(auth, (user) => {
-  if (user && !isSubmitting) window.location.href = "profile.html";
+  if (user && !isSubmitting) window.location.href = "home.html";
 });
 
 // --- Helpers ---

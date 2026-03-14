@@ -4,47 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tune-In — My Profile</title>
-  <link rel="stylesheet" href="css/profile.css" />
-  <style>
-    .profile-nav {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.75rem;
-    }
-    .profile-nav a {
-      flex: 1;
-      text-align: center;
-      padding: 0.6rem;
-      border: 1px solid rgba(61, 214, 200, 0.3);
-      border-radius: 6px;
-      color: #3dd6c8;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-    .profile-nav a:hover { background: rgba(61, 214, 200, 0.1); }
-  </style>
+  <script>if(localStorage.getItem('tune-in-theme')==='light')document.documentElement.classList.add('light-mode');</script>
+  <link rel="stylesheet" href="css/reviews.css" />
 </head>
 <body>
-  <div class="profile-card">
+  <nav class="top-nav">
+    <a href="home.html" class="nav-logo">Tune-In</a>
+    <div class="nav-links">
+      <a href="feed.html">Feed</a>
+      <a href="search.html">Search</a>
+      <a href="lists.html">Lists</a>
+      <a href="queue.html">Queue</a>
+      <a href="reviews.html">My Reviews</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">☾</button>
+  </nav>
+
+  <div class="card">
     <h1>My Profile</h1>
 
-    <nav class="profile-nav">
-      <a href="search.html">Search</a>
-      <a href="reviews.html">My Reviews</a>
-      <a href="review-new.html">Write a Review</a>
-    </nav>
-
     <div class="stats-row">
-      <div class="stat">
+      <a class="stat stat-link" href="follows.html?tab=followers"
+         onclick="sessionStorage.setItem('followsTab','followers')">
         <span class="stat-value" id="followers-count">—</span>
         <span class="stat-label">Followers</span>
-      </div>
-      <div class="stat">
+      </a>
+      <a class="stat stat-link" href="follows.html?tab=following"
+         onclick="sessionStorage.setItem('followsTab','following')">
         <span class="stat-value" id="following-count">—</span>
         <span class="stat-label">Following</span>
-      </div>
+      </a>
+      <a class="stat stat-link" href="queue.html">
+        <span class="stat-value" id="queue-count">—</span>
+        <span class="stat-label">In Queue</span>
+      </a>
     </div>
 
     <div class="user-info">
@@ -74,5 +68,6 @@
   </div>
 
   <script type="module" src="js/profile.js"></script>
+  <script type="module" src="js/theme.js"></script>
 </body>
 </html>

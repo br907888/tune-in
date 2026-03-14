@@ -73,7 +73,7 @@ async function runSearch() {
     }
 
     resultsContainer.innerHTML = users.map(user => `
-      <a href="public-profile.html" data-uid="${escapeHtml(user.uid)}" class="user-card">
+      <a href="public-profile.html?uid=${encodeURIComponent(user.uid)}" data-uid="${escapeHtml(user.uid)}" class="user-card">
         <span class="user-name">${escapeHtml(user.displayName)}</span>
         <span class="user-arrow">→</span>
       </a>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tune-In — My Reviews</title>
+  <title>Tune-In — Followers</title>
   <script>if(localStorage.getItem('tune-in-theme')==='light')document.documentElement.classList.add('light-mode');</script>
   <link rel="stylesheet" href="css/reviews.css" />
 </head>
@@ -22,30 +22,17 @@
   </nav>
 
   <div class="card">
-    <div class="page-header">
-      <h1>My Reviews</h1>
-      <a href="review-new.html" class="action-btn">+ Write a Review</a>
+    <div class="type-toggle" id="tab-toggle">
+      <button class="type-btn active" id="tab-followers" data-tab="followers">Followers</button>
+      <button class="type-btn" id="tab-following" data-tab="following">Following</button>
     </div>
-    <div class="search-row">
-      <input type="search" id="review-search" placeholder="Search by title or artist…" />
-    </div>
-    <div id="reviews-list" class="reviews-list">
-      <p class="empty-state">Loading your reviews...</p>
+
+    <div id="users-list">
+      <p class="empty-state">Loading...</p>
     </div>
   </div>
 
-  <!-- Add to List modal -->
-  <div id="list-modal" class="modal-overlay" hidden>
-    <div class="modal">
-      <div class="modal-header">
-        <h2 class="modal-title">Add to List</h2>
-        <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
-      </div>
-      <div id="modal-lists"></div>
-    </div>
-  </div>
-
-  <script type="module" src="js/reviews.js"></script>
+  <script type="module" src="js/follows.js"></script>
   <script type="module" src="js/theme.js"></script>
 </body>
 </html>

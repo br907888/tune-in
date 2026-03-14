@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tune-In — Home</title>
+  <script>if(localStorage.getItem('tune-in-theme')==='light')document.documentElement.classList.add('light-mode');</script>
+  <link rel="stylesheet" href="css/reviews.css" />
+</head>
+<body class="home-page">
+  <nav class="top-nav">
+    <a href="home.html" class="nav-logo">Tune-In</a>
+    <div class="nav-links">
+      <a href="feed.html">Feed</a>
+      <a href="search.html">Search</a>
+      <a href="lists.html">Lists</a>
+      <a href="queue.html">Queue</a>
+      <a href="reviews.html">My Reviews</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">☾</button>
+  </nav>
+
+  <!-- Hero banner -->
+  <section class="hero-banner">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Welcome back</p>
+      <h1 class="hero-title" id="home-name">...</h1>
+      <p class="hero-subtitle">Your music journal — track, review, and share what moves you.</p>
+      <div class="hero-actions">
+        <a href="review-new.html" class="action-btn">Write a Review</a>
+        <a href="search.html" class="action-btn action-btn-ghost">Find Friends</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="stats-strip">
+    <div class="stats-strip-inner">
+      <a href="follows.html?tab=followers" class="strip-stat"
+         onclick="sessionStorage.setItem('followsTab','followers')">
+        <span class="stat-value" id="stat-followers">—</span>
+        <span class="stat-label">Followers</span>
+      </a>
+      <a href="follows.html?tab=following" class="strip-stat"
+         onclick="sessionStorage.setItem('followsTab','following')">
+        <span class="stat-value" id="stat-following">—</span>
+        <span class="stat-label">Following</span>
+      </a>
+      <a href="reviews.html" class="strip-stat">
+        <span class="stat-value" id="stat-reviews">—</span>
+        <span class="stat-label">Reviews</span>
+      </a>
+      <a href="queue.html" class="strip-stat">
+        <span class="stat-value" id="stat-queue">—</span>
+        <span class="stat-label">In Queue</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Feed preview -->
+  <section class="home-feed">
+    <div class="home-feed-inner">
+      <div class="home-feed-header">
+        <h2 class="section-heading">Recent from Following</h2>
+        <a href="feed.html" class="feed-more-link">View all →</a>
+      </div>
+      <div id="feed-preview" class="reviews-list">
+        <p class="empty-state">Loading...</p>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="js/home.js"></script>
+  <script type="module" src="js/theme.js"></script>
+</body>
+</html>

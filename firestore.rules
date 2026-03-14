@@ -1,0 +1,165 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+
+    // Any signed-in user
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // The signed-in user owns the document by a given field value
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    // Incoming data contains all required keys
+    function hasFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // ── users/{userId} ────────────────────────────────────────────────────────
+    // Read:   any signed-in user (search, display names on public profiles)
+    // Create: the user themselves, with required fields and matching uid
+    // Update: the user themselves — displayName/displayNameLower only;
+    //         uid, email, and createdAt are immutable
+    // Delete: not allowed (no account deletion feature)
+
+    match /users/{userId} {
+      allow read: if isAuth();
+
+      allow create: if isOwner(userId)
+        && hasFields(['uid', 'displayName', 'displayNameLower', 'email', 'createdAt'])
+        && request.resource.data.uid == userId
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() > 0;
+
+      allow update: if isOwner(userId)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() > 0
+        && request.resource.data.displayNameLower is string
+        && request.resource.data.displayNameLower == request.resource.data.displayName.lower();
+
+      allow delete: if false;
+    }
+
+    // ── reviews/{reviewId} ────────────────────────────────────────────────────
+    // Read:   any signed-in user (public profiles, following feed)
+    // Create: the user themselves, with required fields and valid rating
+    // Update: not allowed (no edit review feature)
+    // Delete: the owner only
+
+    match /reviews/{reviewId} {
+      allow read: if isAuth();
+
+      allow create: if isAuth()
+        && hasFields(['userId', 'title', 'artist', 'type', 'rating'])
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.artist is string
+        && request.resource.data.artist.size() > 0
+        && request.resource.data.rating is number
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5;
+
+      allow update: if false;
+
+      allow delete: if isAuth()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    // ── follows/{followId} ────────────────────────────────────────────────────
+    // Document ID is always "{followerId}_{followingId}".
+    // Read:   any signed-in user (follower counts, follow state)
+    // Create: the follower only; cannot follow yourself; ID must match data
+    // Update: not allowed (follows are create/delete only)
+    // Delete: the follower only
+
+    match /follows/{followId} {
+      allow read: if isAuth();
+
+      allow create: if isAuth()
+        && hasFields(['followerId', 'followingId'])
+        && request.resource.data.followerId == request.auth.uid
+        && request.resource.data.followerId != request.resource.data.followingId
+        && followId == request.resource.data.followerId + '_' + request.resource.data.followingId;
+
+      allow update: if false;
+
+      allow delete: if isAuth()
+        && resource.data.followerId == request.auth.uid;
+    }
+
+    // ── lists/{listId} ────────────────────────────────────────────────────────
+    // Read:   any signed-in user (public profiles)
+    // Create: the user themselves, with a non-empty name
+    // Update: the owner only; userId field is immutable
+    // Delete: the owner only
+
+    match /lists/{listId} {
+      allow read: if isAuth();
+
+      allow create: if isAuth()
+        && hasFields(['userId', 'name'])
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0;
+
+      allow update: if isAuth()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+
+      allow delete: if isAuth()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    // ── listItems/{itemId} ────────────────────────────────────────────────────
+    // Document ID is always "{listId}_{reviewId}".
+    // Read:   any signed-in user (list detail, public profiles)
+    // Create: the owner of the list only
+    // Update: not allowed (items are create/delete only)
+    // Delete: the owner only
+
+    match /listItems/{itemId} {
+      allow read: if isAuth();
+
+      allow create: if isAuth()
+        && hasFields(['userId', 'listId', 'reviewId'])
+        && request.resource.data.userId == request.auth.uid
+        && get(/databases/$(database)/documents/lists/$(request.resource.data.listId)).data.userId == request.auth.uid;
+
+      allow update: if false;
+
+      allow delete: if isAuth()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    // ── queue/{itemId} ────────────────────────────────────────────────────────
+    // Read:   any signed-in user (public profiles)
+    // Create: the user themselves, with required fields
+    // Update: not allowed (queue items are create/delete only)
+    // Delete: the owner only
+
+    match /queue/{itemId} {
+      allow read: if isAuth();
+
+      allow create: if isAuth()
+        && hasFields(['userId', 'title', 'artist', 'type'])
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.artist is string
+        && request.resource.data.artist.size() > 0;
+
+      allow update: if false;
+
+      allow delete: if isAuth()
+        && resource.data.userId == request.auth.uid;
+    }
+
+  }
+}

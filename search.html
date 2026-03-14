@@ -4,16 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tune-In — Search Users</title>
+  <script>if(localStorage.getItem('tune-in-theme')==='light')document.documentElement.classList.add('light-mode');</script>
   <link rel="stylesheet" href="css/reviews.css" />
 </head>
 <body>
   <nav class="top-nav">
-    <a href="index.html" class="nav-logo">Tune-In</a>
+    <a href="home.html" class="nav-logo">Tune-In</a>
     <div class="nav-links">
+      <a href="feed.html">Feed</a>
       <a href="search.html">Search</a>
+      <a href="lists.html">Lists</a>
+      <a href="queue.html">Queue</a>
       <a href="reviews.html">My Reviews</a>
       <a href="profile.html">Profile</a>
     </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">☾</button>
   </nav>
 
   <div class="card">
@@ -33,5 +38,6 @@
   </div>
 
   <script type="module" src="js/search.js"></script>
+  <script type="module" src="js/theme.js"></script>
 </body>
 </html>

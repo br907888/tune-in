@@ -6,6 +6,8 @@ const profileNameEl = document.getElementById("profile-name");
 const profileSubtext = document.getElementById("profile-subtext");
 const followBtn = document.getElementById("follow-btn");
 const reviewsList = document.getElementById("reviews-list");
+const listsList = document.getElementById("lists-list");
+const queueList = document.getElementById("queue-list");
 
 let currentUser = null;
 let isFollowing = false;
@@ -16,7 +18,9 @@ const profileUid = params.get("uid") || sessionStorage.getItem("viewProfileUid")
 sessionStorage.removeItem("viewProfileUid");
 
 // --- Auth guard ---
-onAuthStateChanged(auth, async (user) => {
+const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  unsubscribe();
+
   if (!user) {
     window.location.href = "login.html";
     return;
@@ -52,10 +56,12 @@ async function loadProfile(uid) {
     profileNameEl.textContent = displayName;
     document.title = `Tune-In — ${displayName}`;
 
-    // Load follow state and follower count in parallel with reviews
+    // Load follow state, reviews, lists, and queue in parallel
     await Promise.all([
       loadFollowState(currentUser.uid, uid),
-      loadReviews(uid, displayName)
+      loadReviews(uid, displayName),
+      loadLists(uid, displayName),
+      loadQueue(uid, displayName)
     ]);
 
   } catch (err) {
@@ -64,16 +70,20 @@ async function loadProfile(uid) {
 }
 
 async function loadFollowState(currentUid, targetUid) {
-  const followDocRef = doc(db, "follows", `${currentUid}_${targetUid}`);
-  const [followSnap, followerSnap] = await Promise.all([
-    getDoc(followDocRef),
-    getDocs(query(collection(db, "follows"), where("followingId", "==", targetUid)))
-  ]);
+  try {
+    const followDocRef = doc(db, "follows", `${currentUid}_${targetUid}`);
+    const [followSnap, followerSnap] = await Promise.all([
+      getDoc(followDocRef),
+      getDocs(query(collection(db, "follows"), where("followingId", "==", targetUid)))
+    ]);
 
-  isFollowing = followSnap.exists();
-  updateFollowButton();
-  profileSubtext.textContent = formatFollowerCount(followerSnap.size);
-  followBtn.disabled = false;
+    isFollowing = followSnap.exists();
+    updateFollowButton();
+    profileSubtext.textContent = formatFollowerCount(followerSnap.size);
+    followBtn.disabled = false;
+  } catch (err) {
+    // Leave follow button disabled and follower count blank — don't break the rest of the profile
+  }
 }
 
 followBtn.addEventListener("click", async () => {
@@ -144,7 +154,7 @@ async function loadReviews(uid, displayName) {
               <div class="review-artist">${escapeHtml(review.artist)}</div>
             </div>
             <div class="review-meta">
-              <span class="type-badge">${escapeHtml(review.type)}</span>
+              <span class="type-badge type-${safeType(review.type)}">${escapeHtml(review.type)}</span>
               <span class="review-stars">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</span>
             </div>
           </div>
@@ -159,9 +169,101 @@ async function loadReviews(uid, displayName) {
   }
 }
 
+async function loadLists(uid, displayName) {
+  try {
+    const snap = await getDocs(
+      query(collection(db, "lists"), where("userId", "==", uid))
+    );
+
+    if (snap.empty) {
+      listsList.innerHTML = `<p class="empty-state">${escapeHtml(displayName)} hasn't created any lists yet.</p>`;
+      return;
+    }
+
+    const lists = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.seconds ?? Number.MAX_SAFE_INTEGER) - (a.createdAt?.seconds ?? Number.MAX_SAFE_INTEGER));
+
+    // Fetch item counts for all lists in parallel
+    const countSnaps = await Promise.all(
+      lists.map(list =>
+        getDocs(query(collection(db, "listItems"), where("listId", "==", list.id)))
+      )
+    );
+
+    listsList.innerHTML = lists.map((list, i) => {
+      const count = countSnaps[i].size;
+      return `
+        <a class="list-card" href="list-detail.html?id=${encodeURIComponent(list.id)}"
+           data-id="${list.id}">
+          <div class="list-card-body">
+            <span class="list-name-link">${escapeHtml(list.name)}</span>
+            ${list.description ? `<p class="list-desc">${escapeHtml(list.description)}</p>` : ""}
+          </div>
+          <div class="list-card-meta">
+            <span class="list-count">${count} ${count === 1 ? "item" : "items"}</span>
+            <span class="user-arrow">›</span>
+          </div>
+        </a>
+      `;
+    }).join("");
+
+    // sessionStorage fallback for npx serve clean URLs
+    listsList.querySelectorAll(".list-card").forEach(card => {
+      card.addEventListener("click", () => {
+        sessionStorage.setItem("viewListId", card.dataset.id);
+      });
+    });
+
+  } catch (err) {
+    listsList.innerHTML = `<p class="empty-state" style="color:#f87171;">Failed to load lists.</p>`;
+  }
+}
+
+async function loadQueue(uid, displayName) {
+  try {
+    const snap = await getDocs(
+      query(collection(db, "queue"), where("userId", "==", uid))
+    );
+
+    if (snap.empty) {
+      queueList.innerHTML = `<p class="empty-state">${escapeHtml(displayName)} hasn't added anything to their queue yet.</p>`;
+      return;
+    }
+
+    const items = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.addedAt?.seconds ?? 0) - (a.addedAt?.seconds ?? 0));
+
+    queueList.innerHTML = items.map(item => `
+      <div class="review-card">
+        <div class="review-header">
+          <div>
+            <div class="review-title">${escapeHtml(item.title)}</div>
+            <div class="review-artist">${escapeHtml(item.artist)}</div>
+          </div>
+          <div class="review-meta">
+            <span class="type-badge type-${safeType(item.type)}">${escapeHtml(item.type)}</span>
+          </div>
+        </div>
+        <div class="review-footer">
+          <span class="review-date">${formatDate(item.addedAt)}</span>
+        </div>
+      </div>
+    `).join("");
+
+  } catch (err) {
+    queueList.innerHTML = `<p class="empty-state" style="color:#f87171;">Failed to load queue.</p>`;
+  }
+}
+
 function showError(message) {
   profileNameEl.textContent = "Error";
-  reviewsList.innerHTML = `<p class="empty-state" style="color:#f87171;">${escapeHtml(message)}</p>`;
+  followBtn.style.display = "none";
+  const errorHtml = `<p class="empty-state" style="color:#f87171;">${escapeHtml(message)}</p>`;
+  reviewsList.innerHTML = errorHtml;
+  listsList.innerHTML = errorHtml;
+  queueList.innerHTML = errorHtml;
 }
 
 function formatDate(timestamp) {
@@ -176,4 +278,9 @@ function escapeHtml(str = "") {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+const VALID_TYPES = new Set(["album", "song"]);
+function safeType(type) {
+  return VALID_TYPES.has(type) ? type : "";
 }

@@ -14,7 +14,8 @@ const logoutBtn = document.getElementById("logout-btn");
 const statusMsg = document.getElementById("status-msg");
 
 // --- Guard: redirect to login if not authenticated ---
-onAuthStateChanged(auth, (user) => {
+const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  unsubscribe();
   if (!user) {
     window.location.href = "login.html";
     return;
@@ -22,17 +23,25 @@ onAuthStateChanged(auth, (user) => {
   displayNameEl.textContent = user.displayName || "No name set";
   emailEl.textContent = user.email;
   editNameInput.value = user.displayName || "";
-  loadFollowStats(user.uid);
+  await loadStats(user.uid);
 });
 
-// --- Follower / following counts ---
-async function loadFollowStats(uid) {
-  const [followersSnap, followingSnap] = await Promise.all([
-    getDocs(query(collection(db, "follows"), where("followingId", "==", uid))),
-    getDocs(query(collection(db, "follows"), where("followerId", "==", uid)))
-  ]);
-  document.getElementById("followers-count").textContent = followersSnap.size;
-  document.getElementById("following-count").textContent = followingSnap.size;
+// --- Stats: followers, following, queue count ---
+async function loadStats(uid) {
+  try {
+    const [followersSnap, followingSnap, queueSnap] = await Promise.all([
+      getDocs(query(collection(db, "follows"), where("followingId", "==", uid))),
+      getDocs(query(collection(db, "follows"), where("followerId", "==", uid))),
+      getDocs(query(collection(db, "queue"), where("userId", "==", uid)))
+    ]);
+    document.getElementById("followers-count").textContent = followersSnap.size;
+    document.getElementById("following-count").textContent = followingSnap.size;
+    document.getElementById("queue-count").textContent = queueSnap.size;
+  } catch (err) {
+    document.getElementById("followers-count").textContent = "—";
+    document.getElementById("following-count").textContent = "—";
+    document.getElementById("queue-count").textContent = "—";
+  }
 }
 
 // --- Update display name ---

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tune-In — My Reviews</title>
+  <title>Tune-In — My Lists</title>
   <script>if(localStorage.getItem('tune-in-theme')==='light')document.documentElement.classList.add('light-mode');</script>
   <link rel="stylesheet" href="css/reviews.css" />
 </head>
@@ -22,30 +22,29 @@
   </nav>
 
   <div class="card">
-    <div class="page-header">
-      <h1>My Reviews</h1>
-      <a href="review-new.html" class="action-btn">+ Write a Review</a>
-    </div>
-    <div class="search-row">
-      <input type="search" id="review-search" placeholder="Search by title or artist…" />
-    </div>
-    <div id="reviews-list" class="reviews-list">
-      <p class="empty-state">Loading your reviews...</p>
-    </div>
-  </div>
+    <h1>My Lists</h1>
 
-  <!-- Add to List modal -->
-  <div id="list-modal" class="modal-overlay" hidden>
-    <div class="modal">
-      <div class="modal-header">
-        <h2 class="modal-title">Add to List</h2>
-        <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <form id="create-list-form">
+      <div class="form-group">
+        <label for="list-name">List Name</label>
+        <input type="text" id="list-name" placeholder="e.g. Favourite Albums" required />
       </div>
-      <div id="modal-lists"></div>
+      <div class="form-group">
+        <label for="list-desc">Description <span class="optional-label">(optional)</span></label>
+        <input type="text" id="list-desc" placeholder="What's this list about?" />
+      </div>
+      <button type="submit" class="submit-btn" id="create-btn">Create List</button>
+      <p class="status-msg" id="status-msg"></p>
+    </form>
+
+    <div class="divider" style="margin-top: 1.75rem;"></div>
+
+    <div id="lists-container">
+      <p class="empty-state">Loading your lists...</p>
     </div>
   </div>
 
-  <script type="module" src="js/reviews.js"></script>
+  <script type="module" src="js/lists.js"></script>
   <script type="module" src="js/theme.js"></script>
 </body>
 </html>

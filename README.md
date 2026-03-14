@@ -13,4 +13,4 @@ An online web platform that allows users to create personalized accounts to revi
 ## Additional Planned Features
 
 - Dark mode
-- Advanced filtering
+- Edit information inside the user's profile, like display name
