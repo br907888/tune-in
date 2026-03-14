@@ -6,7 +6,7 @@ An online web platform that allows users to create personalized accounts to revi
 
 - **User Accounts** — Create and manage a personalized profile to track your music reviews and listening history.
 - **Reviews & Ratings** — Write reviews and assign ratings to music you have listened to.
-- **Social Interaction** — Search for other user profiles, follow them, and interact with their reviews.
+- **Social Interaction** — Search for other user profiles, follow them, and view their reviews.
 - **Review Lists** — Organize your reviews into curated lists for easy browsing and sharing.
 - **Listening Queue** — Build a queue of songs and albums you have yet to review, so you never lose track of what's next.
 
