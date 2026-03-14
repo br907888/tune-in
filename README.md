@@ -13,26 +13,22 @@ An online web platform that allows users to create personalized accounts to revi
 ## Additional Features (Week7/8)
 
 - **Dark Mode** — Users are able to toggle between dark and light mode, augmenting the visual style to their preference.
-- **Additional Profile Customization** — Edit information inside the user's profile, like display name.
-
-## What I Learned (Week 8)
-
----
+- **Additional Profile Customization** — Users are able to edit information inside the user's profile, like display name.
+- **User Review Search** — Users are able to search for their own reviews by name within the "My Reviews" page.
 
 ## Technologies Used
 
 **Frontend**
 - HTML5, CSS3, Vanilla JavaScript (ES Modules)
-- Google Fonts — Inter
 
 **Backend / Infrastructure**
 - Firebase Authentication — email/password sign-up and login
-- Cloud Firestore — NoSQL document database for all app data
-- Firebase Hosting (optional static deployment)
+- Cloud Firestore — served as a database for all app data
 
----
 
-## Setup Instructions
+
+
+## Setup Instructions (For Running Repo Locally, Without Using GitHub Pages)
 
 1. **Clone the repository**
    ```bash
@@ -54,25 +50,25 @@ An online web platform that allows users to create personalized accounts to revi
 
 > **Note:** The app must be served over HTTP — opening HTML files directly via `file://` will block Firebase module imports.
 
----
 
-## Architecture Overview
+
+## Architecture Overview (Week 8)
 
 ### Frontend
-The app is a multi-page static web application. Each page is a standalone `.html` file that loads its own JavaScript module. There is no build step or bundler — all JS is written as native ES modules imported directly in the browser.
+The app is a multi-page static web application. Each page functions as its own standalone html file that coinceds with an indiividual JavaScript module. All JS is imported driectly into the browser, so no bundling is required. 
 
-Shared concerns are handled by two lightweight modules loaded on every page:
-- `js/theme.js` — light/dark mode toggle with `localStorage` persistence
+Shared modules loaded on each page include:
+- `js/theme.js` — light/dark mode toggle with localStorage persistence
 - `js/nav.js` — mobile hamburger menu toggle
 
 Page-specific logic lives in individual modules (`feed.js`, `reviews.js`, `profile.js`, etc.) that each manage their own Firestore queries and DOM rendering.
 
 ### Backend
-There is no custom server. Firebase provides both authentication and the database. All data reads and writes happen directly from the browser via the Firebase JS SDK. Access control is enforced through Firestore Security Rules (`firestore.rules`), which restrict users to only reading and writing their own data.
+There is no custom server. Firebase provides both authentication and the database. All data reads and writes happen directly from the browser via the Firebase JS SDK.Control and security is managed through Firestore Security Rules, which restrict users to only reading and writing their own data, as opposed to accessing the information of another user.
 
 ---
 
-## Database Structure
+## Database Structure (Week 8)
 
 All collections live in Cloud Firestore.
 
@@ -133,12 +129,15 @@ Document ID format: `{listId}_{reviewId}`
 | `type` | string | `"song"` or `"album"` |
 | `addedAt` | timestamp | Time added to queue |
 
----
 
-## Known Bugs / Limitations
+## Known Bugs / Limitations (Week 8)
 
 - **No real-time updates** — Feed, follows, and review counts reflect data at page load only. Changes made by other users require a page refresh to appear.
-- **Firestore `in` query limit** — The feed chunks following IDs into groups of 10 to work within Firestore's limit. Users following more than 100 people may see incomplete feeds.
-- **No pagination** — All reviews, queue items, and list entries are fetched in a single query. Large datasets may result in slower load times.
-- **No image support** — User profiles and reviews do not support album art or avatars.
-- **Search is name-only** — User search matches on display name only; there is no way to search by email or partial username across all fields.
+- **Single page rendering**- Queries and data retreived are rendered on a single page, which might lead to long load times or strain if a user as over 100 followers or an extensive amount of reviews.
+- **No image support** — User reviews and profiles currently do not support image uploads/display or cutsomized avatars.
+- **Search is name-only** — User search matches on display name only. There is no way to search by email or username.
+
+## What I Learned (Week 8)
+
+This was my first large scale project utilizing AI to help me plan and generate code, and while this experience definitely showcased some of the greater limitations of the technology, I also recognized how powerful AI can be used in terms of debugging massive apps, similar to our discussion in class that argued for AI debugging when dealing with unknown concepts and larger projects. My main difficulty with AI in helping me plan and code my features, especially when it came to cloud-based storage and retrieval, was the fact that as an LLM, Claude Code is really limited to the scope of the Internet. Several steps in the debugging process required me to correct and context that Claude lacked, because the Firebase interface and layout had changed compared to the information that Claude was sourcing from. However, building upon the context of the multiple sessions it took to develop the app, Claude grew to become more responsive and almost agentic in its approach to solving problems. When recognizing that I would ask it to pull a self-review of its code, Claude would initiate it without me asking, and a project of this scope and scale taught me the value of iterative conversation, as over an extended period of time, AI grows accustomed to one’s design tendencies and procedures.
+
