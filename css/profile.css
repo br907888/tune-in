@@ -35,6 +35,7 @@ body {
   display: flex;
   gap: 1.5rem;
   margin-bottom: 1.75rem;
+  flex-wrap: wrap;
 }
 
 .stat {
@@ -54,6 +55,19 @@ body {
   color: #5eead4;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+/* Clickable stat */
+.stat-link {
+  text-decoration: none;
+  border-radius: 6px;
+  padding: 0.25rem 0.4rem;
+  margin: -0.25rem -0.4rem;
+  transition: background 0.2s;
+}
+
+.stat-link:hover {
+  background: rgba(61, 214, 200, 0.1);
 }
 
 /* User info */
