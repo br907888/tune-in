@@ -95,6 +95,19 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  const artist = document.getElementById("review-artist").value.trim();
+  const title = document.getElementById("review-title").value.trim();
+
+  if (!artist) {
+    showStatus("Please enter an artist name.", true);
+    return;
+  }
+
+  if (!title) {
+    showStatus("Please enter a song or album title.", true);
+    return;
+  }
+
   if (selectedRating === 0) {
     showStatus("Please select a star rating.", true);
     return;
@@ -135,4 +148,74 @@ form.addEventListener("submit", async (e) => {
 function showStatus(message, isError = false) {
   statusMsg.textContent = message;
   statusMsg.className = isError ? "status-msg error" : "status-msg success";
+}
+
+// --- TMDb movie search ---
+const TMDB_FUNCTION_URL = "https://us-central1-tune-in-d636f.cloudfunctions.net/tmdbSearch";
+const searchMoviesBtn = document.getElementById("search-movies-btn");
+const movieResults = document.getElementById("movie-results");
+
+searchMoviesBtn.addEventListener("click", async () => {
+  const artist = document.getElementById("review-artist").value.trim();
+  const title = document.getElementById("review-title").value.trim();
+
+  if (!artist) {
+    movieResults.innerHTML = `<p class="movie-empty">Enter an artist name above first.</p>`;
+    return;
+  }
+
+  const query = artist;
+
+  searchMoviesBtn.disabled = true;
+  searchMoviesBtn.textContent = "Searching...";
+  movieResults.innerHTML = `<p class="movie-loading">Looking up movies...</p>`;
+
+  try {
+    const res = await fetch(TMDB_FUNCTION_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Request failed");
+    }
+
+    if (!data.results || data.results.length === 0) {
+      movieResults.innerHTML = `<p class="movie-empty">No movies found — try searching just the artist name.</p>`;
+      return;
+    }
+
+    movieResults.innerHTML = data.results.map(m => `
+      <a class="movie-card" href="${escapeAttr(m.tmdbUrl)}" target="_blank" rel="noopener noreferrer">
+        ${m.poster
+          ? `<img class="movie-poster" src="${escapeAttr(m.poster)}" alt="${escapeHtml(m.title)} poster" loading="lazy" />`
+          : `<div class="movie-poster movie-poster-placeholder">No Image</div>`}
+        <div class="movie-info">
+          <div class="movie-title">${escapeHtml(m.title)}${m.year ? ` <span class="movie-year">(${escapeHtml(m.year)})</span>` : ""}</div>
+          ${m.overview ? `<div class="movie-overview">${escapeHtml(m.overview)}</div>` : ""}
+        </div>
+      </a>
+    `).join("");
+
+  } catch (err) {
+    movieResults.innerHTML = `<p class="movie-error">Couldn't load movie results — ${escapeHtml(err.message)}</p>`;
+  } finally {
+    searchMoviesBtn.disabled = false;
+    searchMoviesBtn.textContent = "Find Movies";
+  }
+});
+
+function escapeHtml(str = "") {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function escapeAttr(str = "") {
+  return str.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }

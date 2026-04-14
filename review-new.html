@@ -26,7 +26,7 @@
   <div class="card">
     <h1>Write a Review</h1>
 
-    <form id="review-form">
+    <form id="review-form" novalidate>
       <!-- Song or Album toggle -->
       <div class="type-toggle">
         <button type="button" class="type-btn active" data-type="song">Song</button>
@@ -36,12 +36,12 @@
 
       <div class="form-group">
         <label for="review-artist">Artist</label>
-        <input type="text" id="review-artist" placeholder="Artist name" required />
+        <input type="text" id="review-artist" placeholder="Artist name" />
       </div>
 
       <div class="form-group">
         <label for="review-title" id="title-label">Song Title</label>
-        <input type="text" id="review-title" placeholder="Song title" required />
+        <input type="text" id="review-title" placeholder="Song title" />
       </div>
 
       <div class="star-group">
@@ -65,6 +65,16 @@
     </form>
 
     <p class="status-msg" id="status-msg"></p>
+  </div>
+
+  <!-- TMDb Movie Search Panel -->
+  <div class="card" id="movie-panel">
+    <div class="movie-panel-header">
+      <h2>Featured in Movies?</h2>
+      <button type="button" class="search-movies-btn" id="search-movies-btn">Find Movies</button>
+    </div>
+    <p class="movie-panel-hint">Find biopics, documentaries, and concert films featuring this artist.</p>
+    <div id="movie-results"></div>
   </div>
 
   <script type="module" src="js/review-new.js"></script>

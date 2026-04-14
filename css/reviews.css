@@ -1751,3 +1751,262 @@ html.light-mode .nav-links {
     flex-direction: column;
   }
 }
+
+/* ── TMDb Movie Panel ────────────────────────────────────────────────────────── */
+
+#movie-panel {
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 540px;
+}
+
+.movie-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.movie-panel-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e0f7f7;
+}
+
+.movie-panel-hint {
+  font-size: 0.82rem;
+  color: #7ecdc8;
+  margin-bottom: 1rem;
+}
+
+.search-movies-btn {
+  background: none;
+  border: 1px solid rgba(61, 214, 200, 0.45);
+  color: #3dd6c8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.search-movies-btn:hover:not(:disabled) {
+  background: rgba(61, 214, 200, 0.1);
+}
+
+.search-movies-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.movie-card {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(61, 214, 200, 0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+  border-radius: 6px;
+}
+
+.movie-card:last-child {
+  border-bottom: none;
+}
+
+.movie-card:hover {
+  background: rgba(61, 214, 200, 0.05);
+}
+
+.movie-poster {
+  width: 52px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 5px;
+  flex-shrink: 0;
+  background: #0d1f35;
+}
+
+.movie-poster-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #5eead4;
+  border: 1px solid rgba(61, 214, 200, 0.2);
+}
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.movie-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #e0f7f7;
+}
+
+.movie-year {
+  font-weight: 400;
+  color: #7ecdc8;
+  font-size: 0.85rem;
+}
+
+.movie-overview {
+  font-size: 0.78rem;
+  color: #a7d8d4;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.movie-loading,
+.movie-empty,
+.movie-error {
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+  color: #7ecdc8;
+}
+
+.movie-error {
+  color: #f87171;
+}
+
+/* ── Inspire Me Widget ───────────────────────────────────────────────────────── */
+
+.inspire-widget {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.08) 0%, rgba(61, 214, 200, 0.06) 100%);
+  border: 1px solid rgba(129, 140, 248, 0.25);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.inspire-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.inspire-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e0f7f7;
+}
+
+.inspire-hint {
+  font-size: 0.82rem;
+  color: #7ecdc8;
+  margin-bottom: 1rem;
+}
+
+.inspire-type-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inspire-type-btn {
+  background: none;
+  border: 1px solid rgba(61, 214, 200, 0.3);
+  color: #7ecdc8;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.inspire-type-btn.active {
+  background: rgba(61, 214, 200, 0.15);
+  border-color: #3dd6c8;
+  color: #3dd6c8;
+}
+
+.inspire-btn {
+  background: linear-gradient(135deg, #818cf8, #3dd6c8);
+  color: #060c14;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.55rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.inspire-btn:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.inspire-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inspire-result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(7, 13, 24, 0.5);
+  border: 1px solid rgba(61, 214, 200, 0.15);
+  border-radius: 10px;
+}
+
+.inspire-result-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e0f7f7;
+}
+
+.inspire-result-artist {
+  font-size: 0.85rem;
+  color: #3dd6c8;
+  margin-top: 0.15rem;
+}
+
+.inspire-result-reason {
+  font-size: 0.82rem;
+  color: #a7d8d4;
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+
+.inspire-review-btn {
+  display: inline-block;
+  margin-top: 0.85rem;
+  padding: 0.4rem 1rem;
+  background: none;
+  border: 1px solid rgba(61, 214, 200, 0.4);
+  color: #3dd6c8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.inspire-review-btn:hover {
+  background: rgba(61, 214, 200, 0.1);
+}
+
+.inspire-loading,
+.inspire-error {
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+  color: #7ecdc8;
+  margin-top: 0.75rem;
+}
+
+.inspire-error {
+  color: #f87171;
+}

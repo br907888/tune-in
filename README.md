@@ -130,6 +130,56 @@ Document ID format: `{listId}_{reviewId}`
 | `addedAt` | timestamp | Time added to queue |
 
 
+## API Features (Week 12)
+
+### Feature 1: Find in Movies (TMDb Integration)
+
+On the **Write a Review** page, a "Find in Movies" panel appears below the review form. After entering an artist name, clicking **Find Movies** searches for biopics, documentaries, and concert films related to that artist. Results display as cards showing the movie poster, title, release year, and a brief overview — each card links directly to the film's page on TMDb.
+
+**API Used:** [The Movie Database (TMDb) API v3](https://developer.themoviedb.org/docs) — specifically the `/search/movie` endpoint.
+
+### Feature 2: Inspire Me (Groq LLM Integration)
+
+On the **Home** page, an "Inspire Me" widget lets users ask an AI to suggest a song or album to review next. Users can toggle between Song and Album mode before clicking **Inspire Me**. The AI returns a title, artist, and a one-sentence reason why it's worth listening to. A **Review this →** button pre-fills the review form with the suggestion so users can jump straight into writing.
+
+The widget tracks recent suggestions within the session and passes them to the AI to avoid repeating recommendations.
+
+**API Used:** [Groq API](https://console.groq.com/docs/openai) with the `llama-3.3-70b-versatile` model via an OpenAI-compatible chat completions endpoint.
+
+### How It Works (Security)
+
+Both API keys are stored exclusively in Firebase Cloud Functions environment variables (`functions/.env`) and never exposed to the browser. All requests from the frontend go to proxy Cloud Functions deployed at `us-central1-tune-in-d636f.cloudfunctions.net`, which handle the actual API calls server-side. CORS is restricted to the app's own Firebase Hosting domain.
+
+### How to Run the API Features Locally
+
+1. **Install the Firebase CLI** if you haven't already:
+   ```bash
+   npm install -g firebase-tools
+   firebase login
+   ```
+
+2. **Add your API keys** to `functions/.env`:
+   ```
+   TMDB_API_KEY=your_tmdb_key_here
+   GROQ_API_KEY=your_groq_key_here
+   ```
+
+3. **Install function dependencies:**
+   ```bash
+   cd functions
+   npm install
+   ```
+
+4. **Start the emulator:**
+   ```bash
+   firebase emulators:start --only functions,hosting
+   ```
+   Open `http://127.0.0.1:5000` in your browser. Both features will call the locally running Cloud Functions.
+
+> **Note:** TMDb API keys are free at [themoviedb.org](https://www.themoviedb.org/settings/api). Groq API keys are free at [console.groq.com](https://console.groq.com).
+
+---
+
 ## Known Bugs / Limitations (Week 8)
 
 - **No real-time updates** — Feed, follows, and review counts reflect data at page load only. Changes made by other users require a page refresh to appear.

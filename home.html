@@ -60,6 +60,24 @@
     </div>
   </section>
 
+  <!-- Inspire Me widget -->
+  <section class="home-feed">
+    <div class="home-feed-inner">
+      <div class="inspire-widget">
+        <div class="inspire-header">
+          <h2>Not sure what to review?</h2>
+        </div>
+        <p class="inspire-hint">Let AI suggest a song or album worth listening to.</p>
+        <div class="inspire-type-toggle">
+          <button class="inspire-type-btn active" data-type="song">Song</button>
+          <button class="inspire-type-btn" data-type="album">Album</button>
+        </div>
+        <button class="inspire-btn" id="inspire-btn">Inspire Me</button>
+        <div id="inspire-result"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Feed preview -->
   <section class="home-feed">
     <div class="home-feed-inner">
@@ -74,6 +92,7 @@
   </section>
 
   <script type="module" src="js/home.js"></script>
+  <script type="module" src="js/inspire.js"></script>
   <script type="module" src="js/nav.js"></script>
   <script type="module" src="js/theme.js"></script>
 </body>
