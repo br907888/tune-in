@@ -16,6 +16,10 @@ An online web platform that allows users to create personalized accounts to revi
 - **Additional Profile Customization** — Users are able to edit information inside the user's profile, like display name.
 - **User Review Search** — Users are able to search for their own reviews by name within the "My Reviews" page.
 
+## Additional Features (Week 9)
+
+- **Profile Photo / Avatar** — Users can upload a profile photo directly from their profile page. Photos are stored in Firebase Storage and surface across the entire app: on the user's own profile, on public profiles, in the following feed alongside each review, in search results, and in the followers/following lists. Users without a photo automatically receive an initials-based placeholder that adapts to both light and dark mode.
+
 ## Technologies Used
 
 **Frontend**
@@ -24,6 +28,7 @@ An online web platform that allows users to create personalized accounts to revi
 **Backend / Infrastructure**
 - Firebase Authentication — email/password sign-up and login
 - Cloud Firestore — served as a database for all app data
+- Firebase Storage — stores user profile photo uploads
 
 
 
@@ -40,6 +45,18 @@ An online web platform that allows users to create personalized accounts to revi
    - Create a project at [firebase.google.com](https://firebase.google.com)
    - Enable **Authentication** (Email/Password provider)
    - Enable **Cloud Firestore** (start in test mode or apply the included `firestore.rules`)
+   - Enable **Firebase Storage** and apply the following security rule:
+     ```
+     rules_version = '2';
+     service firebase.storage {
+       match /b/{bucket}/o {
+         match /avatars/{userId} {
+           allow read: if request.auth != null;
+           allow write: if request.auth != null && request.auth.uid == userId;
+         }
+       }
+     }
+     ```
    - Copy your Firebase config object into `js/firebase-config.js`
 
 3. **Serve the app locally**
@@ -80,6 +97,7 @@ All collections live in Cloud Firestore.
 | `displayNameLower` | string | Lowercase copy used for search |
 | `email` | string | Account email |
 | `createdAt` | timestamp | Account creation time |
+| `photoURL` | string | Firebase Storage URL of the user's profile photo (optional) |
 
 ### `reviews`
 | Field | Type | Description |
@@ -184,7 +202,7 @@ Both API keys are stored exclusively in Firebase Cloud Functions environment var
 
 - **No real-time updates** — Feed, follows, and review counts reflect data at page load only. Changes made by other users require a page refresh to appear.
 - **Single page rendering**- Queries and data retreived are rendered on a single page, which might lead to long load times or strain if a user as over 100 followers or an extensive amount of reviews.
-- **No image support** — User reviews and profiles currently do not support image uploads/display or cutsomized avatars.
+- **No image support** — User reviews and profiles currently do not support image uploads/display or cutsomized avatars. *(Resolved in Week 9 — see Additional Features above.)*
 - **Search is name-only** — User search matches on display name only. There is no way to search by email or username.
 
 ## What I Learned (Week 8)
