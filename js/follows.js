@@ -86,7 +86,7 @@ async function loadTab(tab) {
 
     const users = userSnaps
       .filter(s => s.exists())
-      .map(s => ({ uid: s.id, displayName: s.data().displayName || "Unknown User" }))
+      .map(s => ({ uid: s.id, displayName: s.data().displayName || "Unknown User", photoURL: s.data().photoURL || null }))
       .sort((a, b) => a.displayName.localeCompare(b.displayName));
 
     cache[tab] = users;
@@ -110,7 +110,10 @@ function renderUsers(users, tab) {
   usersList.innerHTML = users.map(user => `
     <a class="user-card" href="public-profile.html?uid=${encodeURIComponent(user.uid)}"
        data-uid="${user.uid}">
-      <span class="user-name">${escapeHtml(user.displayName)}</span>
+      <div class="user-card-identity">
+        ${miniAvatarHtml(user.photoURL, user.displayName)}
+        <span class="user-name">${escapeHtml(user.displayName)}</span>
+      </div>
       <span class="user-arrow">›</span>
     </a>
   `).join("");
@@ -129,4 +132,20 @@ function escapeHtml(str = "") {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function getInitials(name) {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "?";
+  return parts.length >= 2
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
+
+function miniAvatarHtml(photoURL, displayName) {
+  if (photoURL) {
+    return `<div class="mini-avatar"><img src="${escapeHtml(photoURL)}" alt="" /></div>`;
+  }
+  return `<div class="mini-avatar"><span class="mini-avatar-initials">${escapeHtml(getInitials(displayName))}</span></div>`;
 }

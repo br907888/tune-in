@@ -74,7 +74,10 @@ async function runSearch() {
 
     resultsContainer.innerHTML = users.map(user => `
       <a href="public-profile.html?uid=${encodeURIComponent(user.uid)}" data-uid="${escapeHtml(user.uid)}" class="user-card">
-        <span class="user-name">${escapeHtml(user.displayName)}</span>
+        <div class="user-card-identity">
+          ${miniAvatarHtml(user.photoURL || null, user.displayName)}
+          <span class="user-name">${escapeHtml(user.displayName)}</span>
+        </div>
         <span class="user-arrow">→</span>
       </a>
     `).join("");
@@ -98,4 +101,20 @@ function escapeHtml(str = "") {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function getInitials(name) {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "?";
+  return parts.length >= 2
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
+
+function miniAvatarHtml(photoURL, displayName) {
+  if (photoURL) {
+    return `<div class="mini-avatar"><img src="${escapeHtml(photoURL)}" alt="" /></div>`;
+  }
+  return `<div class="mini-avatar"><span class="mini-avatar-initials">${escapeHtml(getInitials(displayName))}</span></div>`;
 }

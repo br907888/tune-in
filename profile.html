@@ -24,6 +24,17 @@
   </nav>
 
   <div class="card">
+    <div class="avatar-section">
+      <div class="avatar-wrap" id="avatar-wrap" tabindex="0" role="button" aria-label="Change profile photo">
+        <img class="avatar-img" id="avatar-img" alt="Profile photo" hidden />
+        <div class="avatar-placeholder" id="avatar-placeholder">
+          <span class="avatar-initials" id="avatar-initials">?</span>
+        </div>
+        <div class="avatar-overlay" aria-hidden="true">Change</div>
+      </div>
+      <input type="file" id="avatar-input" accept="image/*" hidden />
+    </div>
+
     <h1>My Profile</h1>
 
     <div class="stats-row">

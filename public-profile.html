@@ -25,9 +25,17 @@
 
   <div class="card">
     <div class="public-profile-header">
-      <div>
-        <h1 id="profile-name">—</h1>
-        <p class="profile-subtext" id="profile-subtext"></p>
+      <div class="public-profile-identity">
+        <div class="avatar-wrap avatar-static">
+          <img class="avatar-img" id="avatar-img" alt="Profile photo" hidden />
+          <div class="avatar-placeholder" id="avatar-placeholder">
+            <span class="avatar-initials" id="avatar-initials">?</span>
+          </div>
+        </div>
+        <div>
+          <h1 id="profile-name">—</h1>
+          <p class="profile-subtext" id="profile-subtext"></p>
+        </div>
       </div>
       <button class="follow-btn" id="follow-btn" disabled>Follow</button>
     </div>

@@ -53,15 +53,17 @@ async function loadFeed(uid) {
     // Sort newest first
     reviews.sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
 
-    // Fetch display names for each unique author
+    // Fetch display names and avatars for each unique author
     const uniqueUserIds = [...new Set(reviews.map(r => r.userId))];
     const userDocs = await Promise.all(
       uniqueUserIds.map(id => getDoc(doc(db, "users", id)))
     );
     const nameMap = {};
+    const photoMap = {};
     userDocs.forEach(snap => {
       if (snap.exists()) {
         nameMap[snap.id] = snap.data().displayName || "Unknown User";
+        photoMap[snap.id] = snap.data().photoURL || null;
       }
     });
 
@@ -83,7 +85,10 @@ async function loadFeed(uid) {
           ${review.reviewText ? `<p class="review-text">${escapeHtml(review.reviewText)}</p>` : ""}
           <div class="review-footer">
             <a class="review-author" href="public-profile.html?uid=${encodeURIComponent(review.userId)}"
-               data-uid="${review.userId}">${escapeHtml(authorName)}</a>
+               data-uid="${review.userId}">
+              ${miniAvatarHtml(photoMap[review.userId], authorName)}
+              ${escapeHtml(authorName)}
+            </a>
             <span class="review-date">${formatDate(review.createdAt)}</span>
           </div>
         </div>
@@ -114,6 +119,22 @@ function escapeHtml(str = "") {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function getInitials(name) {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "?";
+  return parts.length >= 2
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
+
+function miniAvatarHtml(photoURL, displayName) {
+  if (photoURL) {
+    return `<div class="mini-avatar"><img src="${escapeHtml(photoURL)}" alt="" /></div>`;
+  }
+  return `<div class="mini-avatar"><span class="mini-avatar-initials">${escapeHtml(getInitials(displayName))}</span></div>`;
 }
 
 const VALID_TYPES = new Set(["album", "song"]);

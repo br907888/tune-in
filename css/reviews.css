@@ -6,6 +6,8 @@
   padding: 0;
 }
 
+[hidden] { display: none !important; }
+
 button, input, textarea, select {
   font-family: inherit;
 }
@@ -525,6 +527,9 @@ input:focus, textarea:focus {
 }
 
 .review-author {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   font-size: 0.8rem;
   font-weight: 600;
   color: #3dd6c8;
@@ -534,6 +539,42 @@ input:focus, textarea:focus {
 
 .review-author:hover {
   opacity: 0.75;
+}
+
+/* ── Mini avatar (feed, search, follows) ─────────────────────────────────────── */
+
+.mini-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a3a5c 0%, #0a5c5c 100%);
+  border: 1px solid rgba(61, 214, 200, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mini-avatar-initials {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #3dd6c8;
+  user-select: none;
+}
+
+/* User card identity: avatar + name side by side */
+.user-card-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .delete-btn {
@@ -831,6 +872,95 @@ a.list-card:hover {
   font-size: 0.78rem;
   color: #5eead4;
   white-space: nowrap;
+}
+
+/* ── Avatar ──────────────────────────────────────────────────────────────────── */
+
+.avatar-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.avatar-wrap {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.avatar-wrap:focus-visible {
+  outline: 2px solid #3dd6c8;
+  outline-offset: 3px;
+}
+
+.avatar-img {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-placeholder {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a3a5c 0%, #0a5c5c 100%);
+  border: 2px solid rgba(61, 214, 200, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initials {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #3dd6c8;
+  letter-spacing: -0.5px;
+  user-select: none;
+}
+
+.avatar-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.avatar-wrap:hover .avatar-overlay,
+.avatar-wrap:focus-visible .avatar-overlay {
+  opacity: 1;
+}
+
+.avatar-wrap.avatar-static {
+  cursor: default;
+}
+
+.avatar-wrap.avatar-static .avatar-overlay {
+  display: none;
+}
+
+/* Public profile: avatar + name side by side */
+.public-profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.public-profile-identity h1 {
+  margin-bottom: 0.25rem;
 }
 
 /* ── Profile ─────────────────────────────────────────────────────────────────── */
@@ -1431,6 +1561,24 @@ html.light-mode .follow-btn:hover:not(:disabled) {
 
 html.light-mode .follow-btn.following {
   background: rgba(61, 214, 200, 0.12);
+}
+
+html.light-mode .mini-avatar {
+  background: linear-gradient(135deg, #cef0ea 0%, #b0e0d8 100%);
+  border-color: rgba(61, 214, 200, 0.4);
+}
+
+html.light-mode .mini-avatar-initials {
+  color: #0d7a6a;
+}
+
+html.light-mode .avatar-placeholder {
+  background: linear-gradient(135deg, #cef0ea 0%, #b0e0d8 100%);
+  border-color: rgba(61, 214, 200, 0.5);
+}
+
+html.light-mode .avatar-initials {
+  color: #0d7a6a;
 }
 
 html.light-mode .stats-row .stat-value {

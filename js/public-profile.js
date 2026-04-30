@@ -41,6 +41,35 @@ const unsubscribe = onAuthStateChanged(auth, async (user) => {
   await loadProfile(profileUid);
 });
 
+function getInitials(name) {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "?";
+  return parts.length >= 2
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+}
+
+function renderAvatar(photoURL, displayName) {
+  const avatarImg = document.getElementById("avatar-img");
+  const avatarPlaceholder = document.getElementById("avatar-placeholder");
+  const avatarInitialsEl = document.getElementById("avatar-initials");
+
+  avatarInitialsEl.textContent = getInitials(displayName);
+  if (photoURL) {
+    avatarImg.src = photoURL;
+    avatarImg.hidden = false;
+    avatarPlaceholder.hidden = true;
+    avatarImg.addEventListener("error", () => {
+      avatarImg.hidden = true;
+      avatarPlaceholder.hidden = false;
+    }, { once: true });
+  } else {
+    avatarImg.hidden = true;
+    avatarPlaceholder.hidden = false;
+  }
+}
+
 async function loadProfile(uid) {
   try {
     // Fetch user document
@@ -55,6 +84,7 @@ async function loadProfile(uid) {
     const displayName = userData.displayName || "Unknown User";
     profileNameEl.textContent = displayName;
     document.title = `Tune-In — ${displayName}`;
+    renderAvatar(userData.photoURL || null, displayName);
 
     // Load follow state, reviews, lists, and queue in parallel
     await Promise.all([
