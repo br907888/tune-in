@@ -16,7 +16,7 @@ An online web platform that allows users to create personalized accounts to revi
 - **Additional Profile Customization** — Users are able to edit information inside the user's profile, like display name.
 - **User Review Search** — Users are able to search for their own reviews by name within the "My Reviews" page.
 
-## Additional Features (Week 9)
+## Additional Features (Week 15)
 
 - **Profile Photo / Avatar** — Users can upload a profile photo directly from their profile page. Photos are stored in Firebase Storage and surface across the entire app: on the user's own profile, on public profiles, in the following feed alongside each review, in search results, and in the followers/following lists. Users without a photo automatically receive an initials-based placeholder that adapts to both light and dark mode.
 
@@ -202,7 +202,7 @@ Both API keys are stored exclusively in Firebase Cloud Functions environment var
 
 - **No real-time updates** — Feed, follows, and review counts reflect data at page load only. Changes made by other users require a page refresh to appear.
 - **Single page rendering**- Queries and data retreived are rendered on a single page, which might lead to long load times or strain if a user as over 100 followers or an extensive amount of reviews.
-- **No image support** — User reviews and profiles currently do not support image uploads/display or cutsomized avatars. *(Resolved in Week 9 — see Additional Features above.)*
+- **No image support** — User reviews and profiles currently do not support image uploads/display or cutsomized avatars. *(Resolved in Week 15 — see Additional Features above.)*
 - **Search is name-only** — User search matches on display name only. There is no way to search by email or username.
 
 ## What I Learned (Week 8)
