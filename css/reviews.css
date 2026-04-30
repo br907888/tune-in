@@ -22,6 +22,7 @@ body {
     radial-gradient(ellipse at 75% 5%,  rgba(129, 140, 248, 0.22) 0%, transparent 45%),
     radial-gradient(ellipse at 20% 85%, rgba(61,  214, 200, 0.18) 0%, transparent 45%),
     radial-gradient(ellipse at 50% 50%, rgba(129, 140, 248, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 90%, rgba(236, 72, 153, 0.06) 0%, transparent 40%),
     linear-gradient(160deg, #070d18 0%, #0b1525 100%);
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   color: #e0f7f7;
@@ -362,6 +363,8 @@ input:focus, textarea:focus {
 .user-card:hover {
   background: rgba(61, 214, 200, 0.07);
   border-color: rgba(61, 214, 200, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(61, 214, 200, 0.12), 0 2px 6px rgba(129, 140, 248, 0.08);
 }
 
 .user-name {
@@ -841,7 +844,7 @@ a.list-card:hover {
   background: rgba(61, 214, 200, 0.07);
   border-color: rgba(61, 214, 200, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 24px rgba(61, 214, 200, 0.13), 0 2px 8px rgba(129, 140, 248, 0.08);
 }
 
 .list-card-body {
@@ -1257,7 +1260,7 @@ body.home-page {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #3dd6c8, transparent);
+  background: linear-gradient(90deg, transparent, #3dd6c8 40%, #818cf8 80%, transparent);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -1266,7 +1269,7 @@ body.home-page {
   background: rgba(61, 214, 200, 0.07);
   border-color: rgba(61, 214, 200, 0.28);
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 28px rgba(61, 214, 200, 0.14), 0 3px 10px rgba(129, 140, 248, 0.1);
 }
 
 .strip-stat:hover::before {
@@ -1334,8 +1337,9 @@ body.home-page {
 
 html.light-mode body {
   background:
-    radial-gradient(ellipse at 75% 5%,  rgba(129, 140, 248, 0.06) 0%, transparent 45%),
-    radial-gradient(ellipse at 20% 85%, rgba(61,  214, 200, 0.05) 0%, transparent 45%),
+    radial-gradient(ellipse at 75% 5%,  rgba(129, 140, 248, 0.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 20% 85%, rgba(61,  214, 200, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(196, 181, 253, 0.08) 0%, transparent 50%),
     linear-gradient(160deg, #dff0ed 0%, #d2e8e3 100%);
   color: #0c1a18;
 }
@@ -1380,13 +1384,20 @@ html.light-mode .theme-toggle:hover {
 }
 
 html.light-mode .card {
-  background: #ffffff;
+  background: linear-gradient(145deg, #ffffff 0%, #faf9ff 100%);
   border-color: rgba(61, 214, 200, 0.28);
-  box-shadow: 0 8px 40px rgba(61, 214, 200, 0.08), 0 0 0 1px rgba(129, 140, 248, 0.04);
+  box-shadow: 0 8px 40px rgba(61, 214, 200, 0.09), 0 0 0 1px rgba(129, 140, 248, 0.07);
 }
 
 html.light-mode .card::before {
-  opacity: 0.6;
+  opacity: 1;
+}
+
+html.light-mode .card h1 {
+  background: linear-gradient(120deg, #0d9488 0%, #0891b2 55%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 html.light-mode label {
@@ -1425,13 +1436,11 @@ html.light-mode .type-btn.active {
 html.light-mode .review-card {
   background: #f5fffe;
   border-color: rgba(61, 214, 200, 0.18);
-  border-left-color: rgba(61, 214, 200, 0.45);
 }
 
 html.light-mode .review-card:hover {
   background: #edfcfa;
-  border-left-color: #3dd6c8;
-  box-shadow: 0 6px 24px rgba(61, 214, 200, 0.12);
+  box-shadow: 0 6px 24px rgba(61, 214, 200, 0.14), 0 2px 8px rgba(129, 140, 248, 0.1);
 }
 
 html.light-mode .review-title {
@@ -1474,6 +1483,7 @@ html.light-mode .user-card {
 html.light-mode .user-card:hover {
   background: rgba(61, 214, 200, 0.08);
   border-color: rgba(61, 214, 200, 0.38);
+  box-shadow: 0 4px 16px rgba(61, 214, 200, 0.12), 0 1px 4px rgba(129, 140, 248, 0.07);
 }
 
 html.light-mode .user-name {
@@ -1488,7 +1498,7 @@ html.light-mode .list-card {
 html.light-mode a.list-card:hover {
   background: rgba(61, 214, 200, 0.08);
   border-color: rgba(61, 214, 200, 0.38);
-  box-shadow: 0 6px 24px rgba(61, 214, 200, 0.1);
+  box-shadow: 0 6px 24px rgba(61, 214, 200, 0.13), 0 2px 6px rgba(129, 140, 248, 0.09);
 }
 
 html.light-mode .list-name-link {
@@ -1593,7 +1603,10 @@ html.light-mode .avatar-initials {
 }
 
 html.light-mode .stats-row .stat-value {
-  color: #0d7a6a;
+  background: linear-gradient(120deg, #0d9488 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 html.light-mode .stat-label {
@@ -1626,8 +1639,9 @@ html.light-mode .status.error   { color: #991b1b; }
 
 html.light-mode body.home-page {
   background:
-    radial-gradient(ellipse at 75% 5%,  rgba(129, 140, 248, 0.06) 0%, transparent 45%),
-    radial-gradient(ellipse at 20% 85%, rgba(61,  214, 200, 0.05) 0%, transparent 45%),
+    radial-gradient(ellipse at 75% 5%,  rgba(129, 140, 248, 0.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 20% 85%, rgba(61,  214, 200, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(196, 181, 253, 0.08) 0%, transparent 50%),
     linear-gradient(160deg, #dff0ed 0%, #d2e8e3 100%);
 }
 
@@ -1651,7 +1665,7 @@ html.light-mode .strip-stat {
 html.light-mode .strip-stat:hover {
   background: rgba(255, 255, 255, 0.97);
   border-color: rgba(61, 214, 200, 0.38);
-  box-shadow: 0 8px 28px rgba(61, 214, 200, 0.12);
+  box-shadow: 0 8px 28px rgba(61, 214, 200, 0.15), 0 2px 8px rgba(129, 140, 248, 0.1);
 }
 
 html.light-mode .strip-stat .stat-value {
