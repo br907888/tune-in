@@ -41,6 +41,7 @@ An online music review platform — think Letterboxd, but for music. Users creat
 ### Profile Photos (Week 15)
 
 - **Profile Photo / Avatar** — Users can upload a profile photo directly from their profile page. Photos are stored in Firebase Storage and surface across the entire app: on the user's own profile, on public profiles, in the following feed alongside each review, in search results, and in the followers/following lists. Users without a photo automatically receive an initials-based placeholder that adapts to both light and dark mode.
+- **Improved UI and White Flash Bug Fix** — Added visual clarity and contrast to the different sections of the site. These chnages include glowing gradients on hover and more defined edges that aid in visibility. A previous bug in which switching between pages would cause the diplay to flash whitebefore loading content was fixed.
 
 ---
 
